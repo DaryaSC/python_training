@@ -5,7 +5,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from contact import Contact
 
-class TestAddcontact():
+
+class TestAddContact:
     def setup_method(self, method):
         self.driver = webdriver.Firefox()
         self.vars = {}
