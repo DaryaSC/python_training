@@ -34,3 +34,14 @@ class GroupHelper:
 
     def open_groups_page(self):
         self.app.driver.find_element(By.LINK_TEXT, "groups").click()
+
+    def edit_first_group(self, text):
+        self.open_groups_page()
+        # select first group
+        self.app.driver.find_element(By.NAME, "selected[]").click()
+        # submit deletion
+        self.app.driver.find_element(By.NAME, "edit").click()
+        self.app.driver.find_element(By.NAME, "group_name").clear()
+        self.app.driver.find_element(By.NAME, "group_name").send_keys(text)
+        self.app.driver.find_element(By.NAME, "update").click()
+        self.return_to_groups_page()
