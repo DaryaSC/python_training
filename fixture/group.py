@@ -39,7 +39,6 @@ class GroupHelper:
         self.open_groups_page()
         # select first group
         self.app.driver.find_element(By.NAME, "selected[]").click()
-        # submit deletion
         self.app.driver.find_element(By.NAME, "edit").click()
         self.app.driver.find_element(By.NAME, "group_name").clear()
         self.app.driver.find_element(By.NAME, "group_name").send_keys(text)
