@@ -76,6 +76,7 @@ class CantactHelper:
         self.app.driver.find_element(By.LINK_TEXT, "add new").click()
 
     def delete_first_contact(self):
+        self.app.return_to_home_page()
         # select first group
         self.app.driver.find_element(By.NAME, "selected[]").click()
         self.app.driver.find_element(By.XPATH, "//input[@value='Delete']").click()
@@ -83,6 +84,7 @@ class CantactHelper:
         self.app.return_to_home_page()
 
     def edit_first_contact(self, text):
+        self.app.return_to_home_page()
         # select first group
         self.app.driver.find_element(By.XPATH, "//img[@alt='Edit']").click()
         self.app.driver.find_element(By.NAME, "firstname").clear()
