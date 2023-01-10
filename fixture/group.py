@@ -7,7 +7,9 @@ class GroupHelper:
         self.app = app
 
     def return_to_groups_page(self):
-        self.app.driver.find_element(By.LINK_TEXT, "group page").click()
+        if not (self.app.driver.current_url.endswith("/group.php") and len(
+                self.app.driver.find_elements(By.NAME, "new")) > 0):
+            self.app.driver.find_element(By.LINK_TEXT, "group page").click()
 
     def create(self, group):
         self.open_groups_page()
@@ -38,7 +40,9 @@ class GroupHelper:
         self.return_to_groups_page()
 
     def open_groups_page(self):
-        self.app.driver.find_element(By.LINK_TEXT, "groups").click()
+        if not (self.app.driver.current_url.endswith("/group.php") and len(
+                self.app.driver.find_elements(By.NAME, "new")) > 0):
+            self.app.driver.find_element(By.LINK_TEXT, "groups").click()
 
     def edit_first_group(self, group):
         self.open_groups_page()

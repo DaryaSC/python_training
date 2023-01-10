@@ -22,10 +22,12 @@ class Application:
             return False
 
     def open_home_page(self):
-        self.driver.get("http://localhost/addressbook/")
+        if not len(self.driver.find_elements(By.NAME, "searchstring")) > 0:
+            self.driver.get("http://localhost/addressbook/")
 
     def return_to_home_page(self):
-        self.driver.find_element(By.LINK_TEXT, "home").click()
+        if not len(self.driver.find_elements(By.NAME, "searchstring")) > 0:
+            self.driver.find_element(By.LINK_TEXT, "home").click()
 
     def destroy(self):
         self.driver.quit()

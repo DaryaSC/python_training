@@ -40,7 +40,8 @@ class CantactHelper:
             self.app.driver.find_element(By.NAME, field_name).send_keys(text)
 
     def open_contact_page(self):
-        self.app.driver.find_element(By.LINK_TEXT, "add new").click()
+        if not self.app.driver.current_url.endswith("/edit.php"):
+            self.app.driver.find_element(By.LINK_TEXT, "add new").click()
 
     def delete_first_contact(self):
         self.app.return_to_home_page()
