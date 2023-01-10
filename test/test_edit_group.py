@@ -1,2 +1,13 @@
-def test_edit_first_group(app):
-    app.group.edit_first_group(text="qqqqqqqqq")
+from model.group import Group
+
+
+def test_edit_first_group_name(app):
+    if app.group.count() == 0:
+        app.group.create(Group(name="test"))
+    app.group.edit_first_group(Group(name="new name"))
+
+
+def test_edit_first_group_header(app):
+    if app.group.count() == 0:
+        app.group.create(Group(name="test"))
+    app.group.edit_first_group(Group(header="new header"))
