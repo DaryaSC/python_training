@@ -13,6 +13,7 @@ class CantactHelper:
         self.fill_contact_form(contact)
         self.app.driver.find_element(By.CSS_SELECTOR, "input:nth-child(87)").click()
         self.app.return_to_home_page()
+        self.contact_cache = None
 
     def fill_contact_form(self, contact):
         self.change_field_value("firstname", contact.firstname)
@@ -51,6 +52,7 @@ class CantactHelper:
         self.app.driver.find_element(By.XPATH, "//input[@value='Delete']").click()
         self.app.driver.switch_to.alert.accept()
         self.app.return_to_home_page()
+        self.contact_cache = None
 
     def edit_first_contact(self, contact):
         self.app.return_to_home_page()
@@ -59,17 +61,21 @@ class CantactHelper:
         self.fill_contact_form(contact)
         self.app.driver.find_element(By.NAME, "update").click()
         self.app.return_to_home_page()
+        self.contact_cache = None
 
     def count(self):
         self.app.return_to_home_page()
         return len(self.app.driver.find_elements(By.NAME, "selected[]"))
 
+    contact_cache = None
+
     def get_contact_list(self):
-        self.app.return_to_home_page()
-        contact = []
-        for element in self.app.driver.find_elements(By.NAME, "entry"):
-            lastname = element.find_element(By.XPATH, "td[2]").text
-            firstname = element.find_element(By.XPATH, "td[3]").text
-            id = element.find_element(By.NAME, "selected[]").get_attribute("value")
-            contact.append(Contact(id=id, lastname=lastname, firstname=firstname))
-        return contact
+        if self.contact_cache is None:
+            self.app.return_to_home_page()
+            self.contact_cache = []
+            for element in self.app.driver.find_elements(By.NAME, "entry"):
+                lastname = element.find_element(By.XPATH, "td[2]").text
+                firstname = element.find_element(By.XPATH, "td[3]").text
+                id = element.find_element(By.NAME, "selected[]").get_attribute("value")
+                self.contact_cache.append(Contact(id=id, lastname=lastname, firstname=firstname))
+        return list(self.contact_cache)
