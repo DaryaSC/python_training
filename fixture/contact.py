@@ -45,19 +45,18 @@ class CantactHelper:
         if not self.app.driver.current_url.endswith("/edit.php"):
             self.app.driver.find_element(By.LINK_TEXT, "add new").click()
 
-    def delete_first_contact(self):
+    def delete_contact_by_index(self, index):
         self.app.return_to_home_page()
         # select first group
-        self.app.driver.find_element(By.NAME, "selected[]").click()
+        self.app.driver.find_elements(By.NAME, "selected[]")[index].click()
         self.app.driver.find_element(By.XPATH, "//input[@value='Delete']").click()
         self.app.driver.switch_to.alert.accept()
         self.app.return_to_home_page()
         self.contact_cache = None
 
-    def edit_first_contact(self, contact):
+    def edit_contact_by_index(self, contact, index):
         self.app.return_to_home_page()
-        # select first group
-        self.app.driver.find_element(By.XPATH, "//img[@alt='Edit']").click()
+        self.app.driver.find_elements(By.XPATH, "//img[@alt='Edit']")[index].click()
         self.fill_contact_form(contact)
         self.app.driver.find_element(By.NAME, "update").click()
         self.app.return_to_home_page()

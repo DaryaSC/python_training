@@ -33,11 +33,9 @@ class GroupHelper:
             self.app.driver.find_element(By.NAME, field_name).clear()
             self.app.driver.find_element(By.NAME, field_name).send_keys(text)
 
-    def delete_first_group(self):
+    def delete_group_by_index(self, index):
         self.open_groups_page()
-        # select first group
-        self.app.driver.find_element(By.NAME, "selected[]").click()
-        # submit deletion
+        self.app.driver.find_elements(By.NAME, "selected[]")[index].click()
         self.app.driver.find_element(By.NAME, "delete").click()
         self.return_to_groups_page()
         self.group_cache = None
@@ -47,10 +45,9 @@ class GroupHelper:
                 self.app.driver.find_elements(By.NAME, "new")) > 0):
             self.app.driver.find_element(By.LINK_TEXT, "groups").click()
 
-    def edit_first_group(self, group):
+    def edit_group_by_index(self, group, index):
         self.open_groups_page()
-        # select first group
-        self.app.driver.find_element(By.NAME, "selected[]").click()
+        self.app.driver.find_elements(By.NAME, "selected[]")[index].click()
         self.app.driver.find_element(By.NAME, "edit").click()
         self.fill_group_form(group)
         self.app.driver.find_element(By.NAME, "update").click()
