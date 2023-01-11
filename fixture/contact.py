@@ -1,5 +1,6 @@
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
+from model.contact import Contact
 
 
 class CantactHelper:
@@ -62,3 +63,13 @@ class CantactHelper:
     def count(self):
         self.app.return_to_home_page()
         return len(self.app.driver.find_elements(By.NAME, "selected[]"))
+
+    def get_contact_list(self):
+        self.app.return_to_home_page()
+        contact = []
+        for element in self.app.driver.find_elements(By.NAME, "entry"):
+            lastname = element.find_element(By.XPATH, "td[2]").text
+            firstname = element.find_element(By.XPATH, "td[3]").text
+            id = element.find_element(By.NAME, "selected[]").get_attribute("value")
+            contact.append(Contact(id=id, lastname=lastname, firstname=firstname))
+        return contact

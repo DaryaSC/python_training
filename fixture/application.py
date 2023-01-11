@@ -26,8 +26,7 @@ class Application:
             self.driver.get("http://localhost/addressbook/")
 
     def return_to_home_page(self):
-        if not len(self.driver.find_elements(By.NAME, "searchstring")) > 0:
-            self.driver.find_element(By.LINK_TEXT, "home").click()
+        self.driver.find_element(By.LINK_TEXT, "home").click()
 
     def destroy(self):
         self.driver.quit()
