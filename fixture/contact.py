@@ -54,9 +54,12 @@ class CantactHelper:
         self.app.return_to_home_page()
         self.contact_cache = None
 
-    def edit_contact_by_index(self, contact, index):
+    def open_contact_to_edit_by_index(self, index):
         self.app.return_to_home_page()
         self.app.driver.find_elements(By.XPATH, "//img[@alt='Edit']")[index].click()
+
+    def edit_contact_by_index(self, contact, index):
+        self.open_contact_to_edit_by_index(index)
         self.fill_contact_form(contact)
         self.app.driver.find_element(By.NAME, "update").click()
         self.app.return_to_home_page()
@@ -75,6 +78,29 @@ class CantactHelper:
             for element in self.app.driver.find_elements(By.NAME, "entry"):
                 lastname = element.find_element(By.XPATH, "td[2]").text
                 firstname = element.find_element(By.XPATH, "td[3]").text
+                address = element.find_element(By.XPATH, "td[4]").text
                 id = element.find_element(By.NAME, "selected[]").get_attribute("value")
-                self.contact_cache.append(Contact(id=id, lastname=lastname, firstname=firstname))
+                all_phones = element.find_element(By.XPATH, "td[6]").text
+                all_emails = element.find_element(By.XPATH, "td[5]").text
+                self.contact_cache.append(Contact(id=id, lastname=lastname, firstname=firstname, address=address,
+                                                  all_phones_from_home_page=all_phones,
+                                                  all_emails_from_home_page=all_emails))
         return list(self.contact_cache)
+
+    def get_contact_info_from_edit_page(self, index):
+        self.open_contact_to_edit_by_index(index)
+        id = self.app.driver.find_element(By.NAME, "id").get_attribute("value")
+        lastname = self.app.driver.find_element(By.NAME, "lastname").get_attribute("value")
+        firstname = self.app.driver.find_element(By.NAME, "firstname").get_attribute("value")
+        address = self.app.driver.find_element(By.NAME, "address").get_attribute("value")
+        email = self.app.driver.find_element(By.NAME, "email").get_attribute("value")
+        email2 = self.app.driver.find_element(By.NAME, "email2").get_attribute("value")
+        email3 = self.app.driver.find_element(By.NAME, "email3").get_attribute("value")
+        home = self.app.driver.find_element(By.NAME, "home").get_attribute("value")
+        mobile = self.app.driver.find_element(By.NAME, "mobile").get_attribute("value")
+        work = self.app.driver.find_element(By.NAME, "work").get_attribute("value")
+        phone2 = self.app.driver.find_element(By.NAME, "phone2").get_attribute("value")
+        return Contact(id=id, lastname=lastname, firstname=firstname, address=address, email=email, email2=email2,
+                       email3=email3, home=home, mobile=mobile, work=work, phone2=phone2)
+
+
