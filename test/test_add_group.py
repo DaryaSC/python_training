@@ -1,25 +1,10 @@
-import random
-import string
 from model.group import Group
-import pytest
 
 
-def random_string(maxlen):
-    symbols = string.ascii_letters + string.digits
-    return "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
-
-
-testdata = [Group(name="", header="", footer="")] + [
-    Group(name=random_string(10), header=random_string(20), footer=random_string(20))
-    for i in range(5)
-]
-
-
-@pytest.mark.parametrize("group", testdata, ids=[repr(x) for x in testdata])
-def test_add_group(app, group):
+def test_add_group(app, json_groups):
     old_groups = app.group.get_group_list()
-    app.group.create(group)
+    app.group.create(json_groups)
     assert len(old_groups) + 1 == app.group.count()
     new_groups = app.group.get_group_list()
-    old_groups.append(group)
+    old_groups.append(json_groups)
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
