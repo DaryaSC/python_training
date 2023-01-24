@@ -47,8 +47,15 @@ class CantactHelper:
 
     def delete_contact_by_index(self, index):
         self.app.return_to_home_page()
-        # select first group
         self.app.driver.find_elements(By.NAME, "selected[]")[index].click()
+        self.app.driver.find_element(By.XPATH, "//input[@value='Delete']").click()
+        self.app.driver.switch_to.alert.accept()
+        self.app.return_to_home_page()
+        self.contact_cache = None
+
+    def delete_contact_by_id(self, id):
+        self.app.return_to_home_page()
+        self.app.driver.find_element(By.CSS_SELECTOR, "input[value='%s']" % id).click()
         self.app.driver.find_element(By.XPATH, "//input[@value='Delete']").click()
         self.app.driver.switch_to.alert.accept()
         self.app.return_to_home_page()
@@ -58,8 +65,19 @@ class CantactHelper:
         self.app.return_to_home_page()
         self.app.driver.find_elements(By.XPATH, "//img[@alt='Edit']")[index].click()
 
+    def open_contact_to_edit_by_id(self, id):
+        self.app.return_to_home_page()
+        self.app.driver.find_element(By.CSS_SELECTOR, f"a[href='edit.php?id={id}']").click()
+
     def edit_contact_by_index(self, contact, index):
         self.open_contact_to_edit_by_index(index)
+        self.fill_contact_form(contact)
+        self.app.driver.find_element(By.NAME, "update").click()
+        self.app.return_to_home_page()
+        self.contact_cache = None
+
+    def edit_contact_by_id(self, contact, id):
+        self.open_contact_to_edit_by_id(id)
         self.fill_contact_form(contact)
         self.app.driver.find_element(By.NAME, "update").click()
         self.app.return_to_home_page()

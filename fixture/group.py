@@ -40,6 +40,13 @@ class GroupHelper:
         self.return_to_groups_page()
         self.group_cache = None
 
+    def delete_group_by_id(self, id):
+        self.open_groups_page()
+        self.app.driver.find_element(By.CSS_SELECTOR, "input[value='%s']" % id).click()
+        self.app.driver.find_element(By.NAME, "delete").click()
+        self.return_to_groups_page()
+        self.group_cache = None
+
     def open_groups_page(self):
         if not (self.app.driver.current_url.endswith("/group.php") and len(
                 self.app.driver.find_elements(By.NAME, "new")) > 0):
@@ -48,6 +55,15 @@ class GroupHelper:
     def edit_group_by_index(self, group, index):
         self.open_groups_page()
         self.app.driver.find_elements(By.NAME, "selected[]")[index].click()
+        self.app.driver.find_element(By.NAME, "edit").click()
+        self.fill_group_form(group)
+        self.app.driver.find_element(By.NAME, "update").click()
+        self.return_to_groups_page()
+        self.group_cache = None
+
+    def edit_group_by_id(self, group, id):
+        self.open_groups_page()
+        self.app.driver.find_element(By.CSS_SELECTOR, "input[value='%s']" % id).click()
         self.app.driver.find_element(By.NAME, "edit").click()
         self.fill_group_form(group)
         self.app.driver.find_element(By.NAME, "update").click()
