@@ -121,4 +121,18 @@ class CantactHelper:
         return Contact(id=id, lastname=lastname, firstname=firstname, address=address, email=email, email2=email2,
                        email3=email3, home=home, mobile=mobile, work=work, phone2=phone2)
 
+    def add_contact_in_group(self, contact_id, group_id):
+        self.app.return_to_home_page()
+        self.app.driver.find_element(By.NAME, "to_group").click()
+        self.app.driver.find_element(By.XPATH, "(//option[@value='%s'])[2]" % group_id).click()
+        self.app.driver.find_element(By.CSS_SELECTOR, "input[value='%s']" % contact_id).click()
+        self.app.driver.find_element(By.NAME, "add").click()
+        self.app.return_to_home_page()
 
+    def del_contact_from_group(self, contact_id, group_id):
+        self.app.return_to_home_page()
+        self.app.driver.find_element(By.NAME, "group").click()
+        self.app.driver.find_element(By.XPATH, "//option[@value='%s']" % group_id).click()
+        self.app.driver.find_element(By.CSS_SELECTOR, "input[value='%s']" % contact_id).click()
+        self.app.driver.find_element(By.NAME, "remove").click()
+        self.app.return_to_home_page()
